@@ -2,6 +2,8 @@ import express  from "express"
 import authRoute from "./routes/authRoutes.js"
 import db from "./config/Database.js"
 // import User from "./models/UserModel.js";
+import dotenv from "dotenv"
+dotenv.config()
 const app = express();
 
 // agar  bisa menerima data dalam bentuk JSON
