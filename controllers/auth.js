@@ -5,37 +5,33 @@ import jwt from "jsonwebtoken"
 export const Login = async(req, res) => {
     try {
         const user = await User.findAll({
-            where: {
+            where:{
                 email: req.body.email
             }
         });
-        console.log(user);
         const match = await bcrypt.compare(req.body.password, user[0].password);
-        if(!match) return res.status(400).json({msg: "Wrong password"});
+        if(!match) return res.status(400).json({msg: "Wrong Password"});
         const userId = user[0].id;
         const name = user[0].name;
         const email = user[0].email;
         const accessToken = jwt.sign({userId, name, email}, process.env.ACCESS_TOKEN_SECRET,{
-            expiresIn: '20s'
+            expiresIn: '15s'
         });
         const refreshToken = jwt.sign({userId, name, email}, process.env.REFRESH_TOKEN_SECRET,{
             expiresIn: '1d'
         });
         await User.update({refresh_token: refreshToken},{
-            where: {
+            where:{
                 id: userId
             }
         });
-        //cookie yg akan dikirim ke client
-        res.cookie('refreshToken', refreshToken, {
+        res.cookie('refreshToken', refreshToken,{
             httpOnly: true,
-            //expire coockienya
-            maxAge: 24*60*60*1000,
-            // secure: true -> gunakan jika pakai https
-        })
-        res.json({accessToken});
+            maxAge: 24 * 60 * 60 * 1000
+        });
+        res.json({ accessToken });
     } catch (error) {
-        res.status(400).json({msg: "Email tidak ditemukan"});
+        res.status(404).json({msg:"Email not found"});
     }
 }
 
