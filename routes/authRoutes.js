@@ -4,8 +4,8 @@ import { verifyToken } from "../middleware/VerifyToken.js"
 
 const router = express.Router()
 
-router.post('/login', verifyToken , Login)
-router.get('/users', getUser)
+router.post('/login' , Login)
+router.get('/users',verifyToken, getUser)
 router.post('/register', Register)
 
 export default router

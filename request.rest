@@ -1,5 +1,5 @@
 GET http://localhost:5000/users
-
+Authorization:Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjMsIm5hbWUiOiJ0b2JpIiwiZW1haWwiOiJ0b2JpQHRlc3QuaWQiLCJpYXQiOjE2NzIxMjc5ODAsImV4cCI6MTY3MjEyNzk5NX0.Y39wZvCOD3XPVWXLMDXKkr-KkO3foscBnPRLUuBbtr0
 ###
 
 POST http://localhost:5000/register
