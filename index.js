@@ -1,4 +1,5 @@
 import express  from "express"
+import cookieParser from "cookie-parser"
 import authRoute from "./routes/authRoutes.js"
 import db from "./config/Database.js"
 // import User from "./models/UserModel.js";
@@ -6,11 +7,14 @@ import dotenv from "dotenv"
 dotenv.config()
 const app = express();
 
+//mengambil value dari cookie
+// cookie parser harus diatas
+app.use(cookieParser())
 // agar  bisa menerima data dalam bentuk JSON
 app.use(express.json())
-
 //middleware route
 app.use(authRoute)
+
 
  try {
     await db.authenticate();

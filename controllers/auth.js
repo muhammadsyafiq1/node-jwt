@@ -53,12 +53,29 @@ export const Register = async(req, res) => {
 }
 
 export const Logout = async(req, res) =>{
-
+    const refreshToken = req.cookies.refreshToken
+    if(!refreshToken) return res.sendStatus(204)
+    const user = await User.findAll({
+        where:{
+            refresh_token: refreshToken
+        }
+    });
+    if(!user[0]) return res.sendStatus(204)
+    const userId = user[0].id
+    await User.update({refresh_token: null},{
+        where:{
+            id: userId
+        }
+    });
+    res.clearCookie('refreshToken')
+    return res.sendStatus(200)
 }
 
 export const getUser = async (req, res)=>{
     try {
-        const response = await User.findAll();
+        const response = await User.findAll({
+            attributes: ['id','name','email']
+        });
         res.status(200).json(response)
     } catch (error) {
         res.status(500).json({msg: error.message})
