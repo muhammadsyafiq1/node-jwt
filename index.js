@@ -3,6 +3,7 @@ import cookieParser from "cookie-parser"
 import authRoute from "./routes/authRoutes.js"
 import db from "./config/Database.js"
 // import User from "./models/UserModel.js";
+import cors from "cors"
 import dotenv from "dotenv"
 dotenv.config()
 const app = express();
@@ -10,6 +11,11 @@ const app = express();
 //mengambil value dari cookie
 // cookie parser harus diatas
 app.use(cookieParser())
+//domain yg diizinkan utk akses api
+app.use(cors({
+   credentials: true,
+   origin: 'http://localhost/3000'
+}))
 // agar  bisa menerima data dalam bentuk JSON
 app.use(express.json())
 //middleware route
